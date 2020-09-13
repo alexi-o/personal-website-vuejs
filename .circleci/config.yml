@@ -26,31 +26,36 @@ version: 2.1
 orbs:
   firebase-deploy: noyo/firebase-deploy@0.1.1
 description: Deploy to firebase
-steps:
-  - checkout
+jobs:
+  build:
+    docker:
+        - image: circleci/node:latest
+    working_directory: ~/repo
+    steps:
+      - checkout
 
-  # Download and cache dependencies
-  - restore_cache:
-      keys:
-      - v1-dependencies-{{ checksum "package.json" }}
-      - v1-dependencies-
-  - run: yarn install
-  - run:
-      name: Build phase
-      command: sudo yarn build
-  - run:
-      name: Install Firebase Tools
-      command: npm install --prefix=./firebase-deploy firebase-tools
-  - run:
-      name: Deploy to Firebase
-      command: >
-        case << parameters.only >> in \
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run: yarn install
+      - run:
+          name: Build phase
+          command: sudo yarn build
+      - run:
+          name: Install Firebase Tools
+          command: npm install --prefix=./firebase-deploy firebase-tools
+      - run:
+          name: Deploy to Firebase
+          command: >
+            case << parameters.only >> in \
 
-        none) ./firebase-deploy/node_modules/.bin/firebase deploy --token=<<
-        parameters.token >> --project=<< parameters.project >> ;; \
+            none) ./firebase-deploy/node_modules/.bin/firebase deploy --token=<<
+            parameters.token >> --project=<< parameters.project >> ;; \
 
-        *) ./firebase-deploy/node_modules/.bin/firebase deploy --token=<<
-        parameters.token >> --project=<< parameters.project >> --only=<<
-        parameters.only >> ;; \
+            *) ./firebase-deploy/node_modules/.bin/firebase deploy --token=<<
+            parameters.token >> --project=<< parameters.project >> --only=<<
+            parameters.only >> ;; \
 
-        esac
+            esac
