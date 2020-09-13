@@ -1,31 +1,4 @@
 version: 2.1
-# jobs:
-#   build:
-#     docker:
-#         - image: circleci/node:latest
-#     working_directory: ~/repo
-#     steps:
-#       - checkout
-
-#       # Download and cache dependencies
-#       - restore_cache:
-#           keys:
-#           - v1-dependencies-{{ checksum "package.json" }}
-#           # fallback to using the latest cache if no exact match is found
-#           - v1-dependencies-
-#       - run: yarn install
-#       - run:
-#           name: Build phase
-#           command: sudo yarn build
-#       - run:
-#           name: Install Firebase CLI
-#           command: sudo npm install -g firebase-tools
-#       - run:
-#           name: Deploy to Firebase
-#           command: sudo firebase deploy  --token "$FIREBASE_TOKEN"
-orbs:
-  firebase-deploy: noyo/firebase-deploy@0.1.1
-description: Deploy to firebase
 jobs:
   build:
     docker:
@@ -38,24 +11,16 @@ jobs:
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
       - run: yarn install
       - run:
           name: Build phase
           command: sudo yarn build
       - run:
-          name: Install Firebase Tools
-          command: npm install --prefix=./firebase-deploy firebase-tools
-      - run:
-          name: Deploy to Firebase
-          command: >
-            case << parameters.only >> in \
+          name: Deploy Master to Firebase
+          command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN
 
-            none) ./firebase-deploy/node_modules/.bin/firebase deploy --token=<<
-            parameters.token >> --project=<< parameters.project >> ;; \
-
-            *) ./firebase-deploy/node_modules/.bin/firebase deploy --token=<<
-            parameters.token >> --project=<< parameters.project >> --only=<<
-            parameters.only >> ;; \
-
-            esac
+# filters:
+#             branches:
+#               only: master
