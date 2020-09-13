@@ -1,26 +1,68 @@
 version: 2.1
-jobs:
-  build:
-    docker:
-        - image: circleci/node:latest
-    working_directory: ~/repo
-    steps:
-      - checkout
+# jobs:
+#   build:
+#     docker:
+#         - image: circleci/node:latest
+#     working_directory: ~/repo
+#     steps:
+#       - checkout
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-      - run: yarn install
-      - run:
-          name: Build phase
-          command: sudo yarn build
-      - run:
-          name: Install Firebase CLI
-          command: sudo npm install -g firebase-tools
-      - run:
-          name: Deploy to Firebase
-          command: sudo firebase deploy  --token "$FIREBASE_TOKEN"
+#       # Download and cache dependencies
+#       - restore_cache:
+#           keys:
+#           - v1-dependencies-{{ checksum "package.json" }}
+#           # fallback to using the latest cache if no exact match is found
+#           - v1-dependencies-
+#       - run: yarn install
+#       - run:
+#           name: Build phase
+#           command: sudo yarn build
+#       - run:
+#           name: Install Firebase CLI
+#           command: sudo npm install -g firebase-tools
+#       - run:
+#           name: Deploy to Firebase
+#           command: sudo firebase deploy  --token "$FIREBASE_TOKEN"
+orbs:
+  firebase-deploy: noyo/firebase-deploy@0.1.1
+description: Deploy to firebase
+parameters:
+  token:
+    type: string
+    description: Firebase Deploy Token
+  project:
+    type: string
+    description: 'Firebase project, to specify other than the default'
+  only:
+    type: string
+    description: For filling in the 'only' option for the deploy action
+    default: none
+steps:
+  - checkout
 
+  # Download and cache dependencies
+  - restore_cache:
+      keys:
+      - v1-dependencies-{{ checksum "package.json" }}
+      # fallback to using the latest cache if no exact match is found
+      - v1-dependencies-
+  - run: yarn install
+  - run:
+      name: Build phase
+      command: sudo yarn build
+  - run:
+      name: Install Firebase Tools
+      command: npm install --prefix=./firebase-deploy firebase-tools
+  - run:
+      name: Deploy to Firebase
+      command: >
+        case << parameters.only >> in \
+
+        none) ./firebase-deploy/node_modules/.bin/firebase deploy --token=<<
+        parameters.token >> --project=<< parameters.project >> ;; \
+
+        *) ./firebase-deploy/node_modules/.bin/firebase deploy --token=<<
+        parameters.token >> --project=<< parameters.project >> --only=<<
+        parameters.only >> ;; \
+
+        esac
