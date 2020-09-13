@@ -26,17 +26,6 @@ version: 2.1
 orbs:
   firebase-deploy: noyo/firebase-deploy@0.1.1
 description: Deploy to firebase
-parameters:
-  token:
-    type: string
-    description: Firebase Deploy Token
-  project:
-    type: string
-    description: 'Firebase project, to specify other than the default'
-  only:
-    type: string
-    description: For filling in the 'only' option for the deploy action
-    default: none
 steps:
   - checkout
 
