@@ -1,23 +1,23 @@
 <template>
   <div id="app">
-    <!-- <AddNote msg="Welcome"/> -->
-    <Homepage />
+      <Homepage />
+      <NoteBox />
   </div>
 </template>
 
 <script>
-// import AddNote from './components/AddNote.vue'
 import Homepage from './components/Homepage.vue'
+import NoteBox from './components/NoteBox.vue'
 
 export default {
   name: 'App',
   components: {
-    // AddNote
-    Homepage
+    Homepage,
+    NoteBox
   }
 }
 </script>
 
 <style>
-
+body {padding-top: 70px}
 </style>

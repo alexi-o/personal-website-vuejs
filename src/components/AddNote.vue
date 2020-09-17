@@ -1,24 +1,30 @@
 <template>
     <div>
-        <div class="container">
-            <label>Write me a note</label>
-            <input type="text" v-model="note"/>
-            <button @click="submitNote()"></button>
-        </div>
+        <form class="card p-2">
+            <div class="input-group">
+            <input type="text" class="form-control" v-model="note" />
+            <div class="input-group-append">
+                <button @click="submitNote()" class="btn btn-secondary">Redeem</button>
+            </div>
+            </div>
+        </form>
     </div>
 </template>
 
 <script>
-import { namesRef } from 'firebase';
+import { notesCollection } from '@/firebase';
+
+
 export default {
+    name: 'AddNote',
     data() {
         return {
-            note: 'This is just a sentence. There is no spoon.'
+            note: 'There is no spoon.'
         }
     },
     methods: {
         submitNote() {
-            namesRef.push({note: this.note, edit: false})
+            notesCollection.add({note: this.note})
         }
     }
 }
