@@ -1,4 +1,26 @@
+jobs:
+  build:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - slack/notify:
+          channel: GCQ46ANJC
+          color: '#42e2f4'
+          mentions: 'UCE5UFWD6'
+          message: This is a custom message notification
+          webhook: webhook
+
+orbs:
+  slack: circleci/slack@3.4.2
 version: 2.1
+
+workflows:
+  workflow:
+    jobs:
+      - build
+
+
+
 jobs:
   build:
     docker:
