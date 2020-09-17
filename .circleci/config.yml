@@ -7,8 +7,11 @@ jobs:
           channel: GCQ46ANJC
           color: '#42e2f4'
           mentions: 'UCE5UFWD6'
-          message: This is a custom message notification
+          message: New commit detected
           webhook: $SLACK_WEBHOOK
+          include_project_field: true
+          include_job_number_field: true
+          include_visit_job_action: true
 
 orbs:
   slack: circleci/slack@3.4.2
