@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div>
         <div class="container">
             <label>Write me a note</label>
             <input type="text" v-model="note"/>
