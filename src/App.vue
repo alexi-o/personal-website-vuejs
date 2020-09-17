@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <Homepage msg="Alexi O'Hearn"/>
+    <AddNote msg="Welcome"/>
   </div>
 </template>
 
 <script>
-import Homepage from './components/Homepage.vue'
+import AddNote from './components/AddNote.vue'
 
 export default {
   name: 'App',
   components: {
-    Homepage
+    AddNote
   }
 }
 </script>
