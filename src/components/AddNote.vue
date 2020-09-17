@@ -12,8 +12,7 @@
 </template>
 
 <script>
-import { notesCollection } from '@/firebase';
-
+import { notesRef } from '../../firebase';
 
 export default {
     name: 'AddNote',
@@ -24,7 +23,7 @@ export default {
     },
     methods: {
         submitNote() {
-            notesCollection.add({note: this.note})
+            notesRef.push({ note: this.note })
         }
     }
 }
