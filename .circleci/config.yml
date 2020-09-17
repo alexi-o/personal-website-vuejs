@@ -7,7 +7,6 @@ jobs:
 
       - slack/status:
           mentions: "UCE5UFWD6"
-          fail_only: true 
           webhook: $SLACK_WEBHOOK
 
 orbs:
