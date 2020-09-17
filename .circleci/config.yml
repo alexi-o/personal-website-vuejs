@@ -1,7 +1,7 @@
 jobs:
   build:
     docker:
-      - image: <docker image>
+      - image: circleci/node:latest
     steps:
       - run: exit 0
 
