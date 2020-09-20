@@ -16,28 +16,27 @@ jobs:
                 mentions: "UCE5UFWD6"
                 message: Development build
                 webhook: $SLACK_WEBHOOK
-                filters:
-                  branches:
-                    ignore: master
       - run:
           name: Build phase
           command: sudo yarn build
       - run:
           name: Install Firebase CLI
           command: sudo npm install -g firebase-tools
-          filters:
-            branches:
-                only: master
       - run:
           name: Deploy to Firebase
           command: sudo firebase deploy  --token "$FIREBASE_TOKEN"
-          filters:
-            branches:
-                only: master
       - slack/status:
                 mentions: "UCE5UFWD6"
                 webhook: $SLACK_WEBHOOK
                 message: Production build
+                filters:
+                  branches:
+                    only: master
+      - slack/status:
+                mentions: "UCE5UFWD6"
+                webhook: $SLACK_WEBHOOK
+                when: on_fail
+                message: Build failed
                 filters:
                   branches:
                     only: master
