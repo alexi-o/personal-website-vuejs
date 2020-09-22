@@ -9,10 +9,9 @@
             </div>
         </form>
         <ul>
-            <li v-for="note in notesRef" 
+            <li v-for="note in loadNotes" 
             v-bind:key="note['.key']">{{note}}</li>
         </ul>
-        </div>
     </div>
 </template>
 
@@ -27,7 +26,7 @@ export default {
         }
     },
     computed: {
-        notes() {
+        loadNotes() {
             return notesRef
         }
     },

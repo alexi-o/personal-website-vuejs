@@ -1,5 +1,3 @@
-// import firebase from 'firebase/app';
-// import 'firebase/firestore';
 import { initializeApp } from 'firebase';
 
 const app = initializeApp({
@@ -12,13 +10,6 @@ const app = initializeApp({
     appId: "1:823513043235:web:b2b82377b0d1eb6f1c3c96",
     measurementId: "G-J9H8EF5WKY"
 });
-// Initialize Firebase
-// firebase.initializeApp(firebaseConfig);
 
 export const db = app.database();
 export const notesRef = db.ref('notes')
-// const notesCollection = db.collection('notes');
-
-// export {
-//     notesCollection
-// };
