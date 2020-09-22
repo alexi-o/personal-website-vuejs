@@ -8,7 +8,7 @@
             </div>
             </div>
         </form>
-        <li v-for="note in notesRef" :key="note">{{ note }}</li>
+        <li v-for="note in notesRef" v-bind:key="note['.key']">{{ note }}</li>
         </div>
     </div>
 </template>
