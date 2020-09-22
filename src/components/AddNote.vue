@@ -8,7 +8,10 @@
             </div>
             </div>
         </form>
-        <li v-for="note in notesRef" v-bind:key="note['.key']">{{ note }}</li>
+        <ul>
+            <li v-for="note in notesRef" 
+            v-bind:key="note['.key']">{{note}}</li>
+        </ul>
         </div>
     </div>
 </template>
@@ -21,6 +24,11 @@ export default {
     data() {
         return {
             note: 'There is no spoon.'
+        }
+    },
+    computed: {
+        notes() {
+            return notesRef
         }
     },
     methods: {
