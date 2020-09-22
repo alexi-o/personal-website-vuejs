@@ -14,8 +14,8 @@ jobs:
       - run: yarn install
       - slack/status:
                 mentions: "UCE5UFWD6"
-                message: Development build
                 webhook: $SLACK_WEBHOOK
+                message: Development build
       - run:
           name: Build phase
           command: sudo yarn build
